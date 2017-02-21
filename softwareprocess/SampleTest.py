@@ -235,3 +235,24 @@ class SampleTest(unittest.TestCase):
         mySample = SM.Sample(self.nominalN)
         self.assertAlmostEquals(mySample.f(1, 5), 0.578703704)
         
+# 700 integrate
+# Analysis
+#   inputs
+#       lowBound -> numeric mandatory validated
+#       highBound -> numeric mandatory validated
+#       n -> numeric mandatory validated
+#       f -> function with two numeric parameters mandatory validated
+#   outputs
+#       float .GE. 0 .LE. 1
+# happy path
+#   integrate(0, 0, 0, f -> 0) = 0.0
+#   integrate(0, 3, 0, f -> x ** 2) = 9.0
+# sad path
+#   none ... all parameters are pre-validated
+
+    def test700_001_ShouldIntegrate0(self):
+        s = SM.Sample(self.nominalN)
+        self.assertAlmostEquals(s.integrate(0, 0, 0, self.constant0), 0.0)
+
+    def constant0(self, t, n):
+        return 0

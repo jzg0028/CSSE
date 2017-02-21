@@ -252,7 +252,14 @@ class SampleTest(unittest.TestCase):
 
     def test700_001_ShouldIntegrate0(self):
         s = SM.Sample(self.nominalN)
-        self.assertAlmostEquals(s.integrate(0, 0, 0, self.constant0), 0.0)
+        self.assertAlmostEquals(s.integrate(0, 0, 0, self.constant0), 0.0, 3)
+
+    def test700_002_ShouldIntegrateSquare(self):
+        s = SM.Sample(self.nominalN)
+        self.assertAlmostEquals(s.integrate(0, 3, 0, self.square), 9.0, 3)
 
     def constant0(self, t, n):
         return 0
+
+    def square(self, t, n):
+        return t ** 2

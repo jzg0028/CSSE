@@ -65,4 +65,13 @@ class Sample(object):
         return result
     
     def integrate(self, lowBound, highBound, n, f):
-        return 0
+    # number of slices
+        s = 4
+        w = (highBound - lowBound) / s
+   # first section has no coefficient
+        simpson = f(0, n)
+        for i in xrange(s - 1, 0, -1):
+            simpson += f(highBound - lowBound - i * w, n) * (4 if i & 1 == 1 else 2)
+   # last section has no coefficient
+        simpson += f(highBound, n)
+        return simpson * w / 3

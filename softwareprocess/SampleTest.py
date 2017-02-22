@@ -235,7 +235,7 @@ class SampleTest(unittest.TestCase):
         mySample = SM.Sample(self.nominalN)
         self.assertAlmostEquals(mySample.f(1, 5), 0.578703704)
         
-# 700 integrate
+# 000 integrate
 # Analysis
 #   inputs
 #       lowBound -> numeric mandatory validated
@@ -246,20 +246,18 @@ class SampleTest(unittest.TestCase):
 #       float .GE. 0 .LE. 1
 # happy path
 #   integrate(0, 0, 0, f -> 0) = 0.0
-#   integrate(0, 3, 0, f -> x ** 2) = 9.0
+#   integrate(0, 1, 0, f -> x ** 2) = 1/3
 # sad path
 #   none ... all parameters are pre-validated
 
-    def test700_001_ShouldIntegrate0(self):
+    def test000_001_ShouldIntegrate0(self):
         s = SM.Sample(self.nominalN)
-        self.assertAlmostEquals(s.integrate(0, 0, 0, self.constant0), 0.0, 3)
+        self.assertAlmostEquals(s.integrate(0.0, 1.0, 1.0, lambda x, y: 0), 0.0)
 
-    def test700_002_ShouldIntegrateSquare(self):
+    def test000_002_ShouldIntegrateSquare(self):
         s = SM.Sample(self.nominalN)
-        self.assertAlmostEquals(s.integrate(0, 3, 0, self.square), 9.0, 3)
+        self.assertAlmostEquals(s.integrate(0.0, 1.0, 1.0, lambda x, y: x ** 2), 1.0/3.0)
 
-    def constant0(self, t, n):
-        return 0
-
-    def square(self, t, n):
-        return t ** 2
+    def test000_003_ShouldIntegrate100(self):
+        s = SM.Sample(self.nominalN)
+        self.assertAlmostEquals(s.integrate(0.0, 1.0, 1.0, lambda x, y: x ** 100), 1.0/101.0)

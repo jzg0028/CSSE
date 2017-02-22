@@ -250,10 +250,6 @@ class SampleTest(unittest.TestCase):
 # sad path
 #   none ... all parameters are pre-validated
 
-    def test000_001_ShouldIntegrate0(self):
-        s = SM.Sample(self.nominalN)
-        self.assertAlmostEquals(s.integrate(0.0, 1.0, 1.0, lambda x, y: 0), 0.0)
-
     def test000_002_ShouldIntegrateSquare(self):
         s = SM.Sample(self.nominalN)
         self.assertAlmostEquals(s.integrate(0.0, 1.0, 1.0, lambda x, y: x ** 2), 1.0/3.0)

@@ -65,13 +65,23 @@ class Sample(object):
         return result
     
     def integrate(self, lowBound, highBound, n, f):
+    # margin of error
+        epsilon = 0.0001
+        old = 0
+        simpson = epsilon
     # number of slices
         s = 4
-        w = (highBound - lowBound) / s
-   # first section has no coefficient
-        simpson = f(0, n)
-        for i in xrange(s - 1, 0, -1):
-            simpson += f(highBound - lowBound - i * w, n) * (4 if i & 1 == 1 else 2)
-   # last section has no coefficient
-        simpson += f(highBound, n)
-        return simpson * w / 3
+        while(abs((simpson - old) / simpson) > epsilon):
+            old = simpson
+        # width of each slice
+            w = (highBound - lowBound) / s
+        # first section has no coefficient
+            simpson = f(0, n)
+            for i in xrange(s - 1, 0, -1):
+                simpson += f(highBound - lowBound - i * w, n) * (4 if i & 1 == 1 else 2)
+        # last section has no coefficient
+            simpson += f(highBound, n)
+            simpson = simpson * w / 3
+        # double slices for better precision
+            s *= 2
+        return simpson

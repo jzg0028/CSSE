@@ -11,7 +11,7 @@ def convertString2Dictionary(inputString = ''):
     inputString = urllib.unquote(inputString)
     # if the string is valid
     if re.compile(r'\s*[a-zA-Z]\w*\s*=\s*\w+\s*'
-        r'(?:,\s*[a-zA-Z]\w*\s*=\s*\w+\s*)+$').match(inputString):
+        r'(?:,\s*[a-zA-Z]\w*\s*=\s*\w+\s*)*$').match(inputString):
         # find all key/value pairs
         o = re.compile(r'([a-zA-Z]\w*)\s*=\s*(\w+)').findall(inputString)
         # if there are no duplicates

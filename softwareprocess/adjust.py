@@ -14,7 +14,13 @@ def adjust(values):
 
     height = 0 if not 'height' in values else int(values['height'])
     if height < 0:
-        values['error'] = 'height can\'t be negative'
+        values['error'] = 'height out of range'
+        return values
+
+    temperature = 72 if not 'temperature' in values \
+        else int(values['temperature'])
+    if temperature > 120:
+        values['error'] = 'temperature out of range'
         return values
 
     return values

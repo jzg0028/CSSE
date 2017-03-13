@@ -26,3 +26,7 @@ class AngleTest(unittest.TestCase):
     def test_heightLowBoundError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'height' : '-1'}))
+
+    def test_temperaturehighBoundError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'temperature' : '121'}))

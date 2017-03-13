@@ -19,7 +19,7 @@ def adjust(values):
 
     temperature = 72 if not 'temperature' in values \
         else int(values['temperature'])
-    if temperature > 120:
+    if temperature > 120 or temperature < -20:
         values['error'] = 'temperature out of range'
         return values
 

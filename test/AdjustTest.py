@@ -38,3 +38,7 @@ class AngleTest(unittest.TestCase):
     def test_pressureHighBoundError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'pressure' : '1101'}))
+
+    def test_pressureLowBoundError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'pressure' : '99'}))

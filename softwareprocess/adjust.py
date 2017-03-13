@@ -5,8 +5,7 @@ def adjust(values):
         values['error'] = 'mandatory information is missing'
         return values
     observation = angle.parse(values['observation'])
-    # FIX this is inefficient, but easy for now
-    if observation < angle.parse('0d0.1'):
-        values['error'] = 'observation is below 0d0.1'
+    if not observation or observation < 0.00168:
+        values['error'] = 'invalid observation'
         return values
     return values

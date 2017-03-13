@@ -12,18 +12,31 @@ def adjust(values):
         values['error'] = 'invalid observation'
         return values
 
-    height = 0 if not 'height' in values else int(values['height'])
+    try:
+        height = 0 if not 'height' in values else int(values['height'])
+    except:
+        values['error'] = 'height value error'
+        return values
     if height < 0:
         values['error'] = 'height out of range'
         return values
 
-    temperature = 72 if not 'temperature' in values \
-        else int(values['temperature'])
+    try:
+        temperature = 72 if not 'temperature' in values \
+            else int(values['temperature'])
+    except:
+        values['error'] = 'temperature value error'
+        return values
     if temperature > 120 or temperature < -20:
         values['error'] = 'temperature out of range'
         return values
 
-    pressure = 1010 if not 'pressure' in values else int(values['pressure'])
+    try:
+        pressure = 1010 if not 'pressure' in values \
+            else int(values['pressure'])
+    except:
+        values['error'] = 'pressure value error'
+        return values
     if pressure > 1100 or pressure < 100:
         values['error'] = 'pressure out of range'
         return values

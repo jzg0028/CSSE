@@ -23,4 +23,9 @@ def adjust(values):
         values['error'] = 'temperature out of range'
         return values
 
+    pressure = 1010 if not 'pressure' in values else int(values['pressure'])
+    if pressure > 1100:
+        values['error'] = 'pressure out of range'
+        return values
+
     return values

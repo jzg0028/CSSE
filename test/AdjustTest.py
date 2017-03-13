@@ -22,3 +22,7 @@ class AngleTest(unittest.TestCase):
         self.assertTrue('error' in adjust.adjust({'observation' : 'd0.0'}))
         self.assertTrue('error' in adjust.adjust({'observation' : '0y0.0'}))
         self.assertTrue('error' in adjust.adjust({'observation' : '00.0'}))
+
+    def test_heightLowBoundError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'height' : '-1'}))

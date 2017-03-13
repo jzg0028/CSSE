@@ -27,6 +27,10 @@ class AngleTest(unittest.TestCase):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'height' : '-1'}))
 
+    def test_heightValueError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'height' : '12.5'}))
+
     def test_temperatureHighBoundError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'temperature' : '121'}))
@@ -35,6 +39,10 @@ class AngleTest(unittest.TestCase):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'temperature' : '-21'}))
 
+    def test_heightValueError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'temperature' : '12.5'}))
+
     def test_pressureHighBoundError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'pressure' : '1101'}))
@@ -42,3 +50,7 @@ class AngleTest(unittest.TestCase):
     def test_pressureLowBoundError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'pressure' : '99'}))
+
+    def test_heightValueError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'pressure' : '12.5'}))

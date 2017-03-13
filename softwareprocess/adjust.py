@@ -24,7 +24,7 @@ def adjust(values):
         return values
 
     pressure = 1010 if not 'pressure' in values else int(values['pressure'])
-    if pressure > 1100:
+    if pressure > 1100 or pressure < 100:
         values['error'] = 'pressure out of range'
         return values
 

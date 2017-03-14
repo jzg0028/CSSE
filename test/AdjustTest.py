@@ -82,3 +82,13 @@ class AngleTest(unittest.TestCase):
     def test_horizonValueError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'horizon' : 'foobar'}))
+
+    def test_extraKeyNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'foo' : 'bar'}))
+        self.assertTrue('foo' in adjust.adjust(
+            {'observation' : '0d0.1', 'foo' : 'bar'}))
+
+    def test_altitudePresentError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'altitude' : '0d0.0'}))

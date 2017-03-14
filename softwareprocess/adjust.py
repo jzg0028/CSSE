@@ -1,4 +1,13 @@
 import softwareprocess.angle as angle
+import math
+
+def dip(height):
+    return (-0.97 * math.sqrt(height)) / 60
+
+def refraction(pressure, temperature, observation):
+    return ((-0.00452 * pressure)
+        / (273 + ((temperature - 32) * 5 / 9))
+        / math.tan(math.radians(observation)))
 
 def adjust(values):
 
@@ -52,6 +61,7 @@ def adjust(values):
         values['error'] = 'invalid horizon'
         return values
 
-    values['altitude'] = '0d0.0'
+    values['altitude'] = angle.toString(observation + dip(height)
+        + refraction(pressure, temperature, observation))
 
     return values

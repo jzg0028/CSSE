@@ -54,3 +54,31 @@ class AngleTest(unittest.TestCase):
     def test_pressureValueError(self):
         self.assertTrue('error' in adjust.adjust(
             {'observation' : '0d0.1', 'pressure' : '12.5'}))
+
+    def test_horizonArtificialLowCaseNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'artificial'}))
+
+    def test_horizonArtificialUpCaseNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'ARTIFICIAL'}))
+
+    def test_horizonArtificialMixCaseNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'ArTiFiCiAl'}))
+
+    def test_horizonNaturalLowCaseNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'natural'}))
+
+    def test_horizonNaturalUpCaseNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'NATURAL'}))
+
+    def test_horizonNaturalMixCaseNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'nAtUrAl'}))
+
+    def test_horizonValueError(self):
+        self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'horizon' : 'foobar'}))

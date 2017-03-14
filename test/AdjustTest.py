@@ -96,3 +96,7 @@ class AngleTest(unittest.TestCase):
     def test_defaultResultPresent(self):
         self.assertTrue('altitude' in adjust.adjust(
             {'observation' : '42d0.0'}))
+
+    def test_defaultResultValue(self):
+        self.assertEqual('41d59.0',
+            adjust.adjust({'observation' : '42d0.0'})['altitude'])

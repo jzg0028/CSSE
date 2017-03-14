@@ -52,4 +52,6 @@ def adjust(values):
         values['error'] = 'invalid horizon'
         return values
 
+    values['altitude'] = '0d0.0'
+
     return values

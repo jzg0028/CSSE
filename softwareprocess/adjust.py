@@ -41,7 +41,8 @@ def adjust(values):
         values['error'] = 'pressure out of range'
         return values
 
-    horizon = 'natural' if not 'horizon' in values else values['horizon']
+    horizon = 'natural' if not 'horizon' in values \
+        else values['horizon'].lower()
     if horizon != 'natural' and horizon != 'artificial':
         values['error'] = 'invalid horizon'
         return values

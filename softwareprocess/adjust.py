@@ -1,6 +1,11 @@
 import softwareprocess.angle as angle
 
 def adjust(values):
+
+    if 'altitude' in values:
+        values['error'] = 'key "values" can\'t be present'
+        return values
+
     if not 'observation' in values:
         values['error'] = 'mandatory information is missing'
         return values

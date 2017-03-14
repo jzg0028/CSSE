@@ -61,7 +61,8 @@ def adjust(values):
         values['error'] = 'invalid horizon'
         return values
 
-    values['altitude'] = angle.toString(observation + dip(height)
+    values['altitude'] = angle.toString(observation
+        + (dip(height) if horizon == 'natural' else 0)
         + refraction(pressure, temperature, observation))
 
     return values

@@ -27,7 +27,7 @@ def adjust(values):
         return values
 
     try:
-        height = 0 if not 'height' in values else int(values['height'])
+        height = 0.0 if not 'height' in values else float(values['height'])
     except:
         values['error'] = 'height value error'
         return values

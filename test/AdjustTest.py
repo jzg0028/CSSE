@@ -29,7 +29,13 @@ class AngleTest(unittest.TestCase):
 
     def test_heightValueError(self):
         self.assertTrue('error' in adjust.adjust(
+            {'observation' : '0d0.1', 'height' : 'foo'}))
+
+    def test_heightValueNoError(self):
+        self.assertTrue(not 'error' in adjust.adjust(
             {'observation' : '0d0.1', 'height' : '12.5'}))
+        self.assertTrue(not 'error' in adjust.adjust(
+            {'observation' : '0d0.1', 'height' : '12'}))
 
     def test_temperatureHighBoundError(self):
         self.assertTrue('error' in adjust.adjust(
@@ -104,7 +110,7 @@ class AngleTest(unittest.TestCase):
     def test_nominalArtificialValue(self):
         self.assertEqual('29d59.9', adjust.adjust (
                 {'observation' : '30d1.5',
-                'height' : '19',
+                'height' : '19.0',
                 'pressure' : '1000',
                 'temperature' : '85',
                 'horizon' : 'artificial' })['altitude'])

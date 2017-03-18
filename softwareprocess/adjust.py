@@ -31,16 +31,18 @@ def adjust(values):
         if 'altitude' in values:
             raise ValueError('key "values" can\'t be resent')
         values['altitude'] = angle.toString (
-            adjustedAltitude (
-                angle.parse(values['observation']),
-                float(0.0 if not 'height' in values
-                    else values['height']),
-                int(1010 if not 'pressure' in values
-                    else values['pressure']),
-                int(72 if not 'temperature' in values
-                    else values['temperature']),
-                ('natural' if not 'horizon' in values
-                    else values['horizon'].lower())
+            angle.normalize (
+                adjustedAltitude (
+                    angle.parse(values['observation']),
+                    float(0.0 if not 'height' in values
+                        else values['height']),
+                    int(1010 if not 'pressure' in values
+                        else values['pressure']),
+                    int(72 if not 'temperature' in values
+                        else values['temperature']),
+                    ('natural' if not 'horizon' in values
+                        else values['horizon'].lower())
+                ), -90, 90
             )
         )
     except Exception as e:

@@ -8,3 +8,10 @@ def parse(angle):
     if not match:
         raise ValueError('invalid angle string format: ' + angle)
     return int(match.group(1)) + float(match.group(2)) / 60
+
+def normalize(angle, low, high):
+    while(angle <= low):
+        angle += 360
+    while(angle >= high):
+        angle -= 360
+    return angle

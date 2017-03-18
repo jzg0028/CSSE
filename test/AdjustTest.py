@@ -116,8 +116,8 @@ class AngleTest(unittest.TestCase):
                 'horizon' : 'artificial' })['altitude'])
 
     def test_nominalNaturalValue(self):
-        self.assertEqual('29d59.9', adjust.adjust (
-                {'observation' : '54d15.2',
+        self.assertEqual('45d11.9', adjust.adjust (
+                {'observation' : '45d15.2',
                 'height' : '6',
                 'pressure' : '1000',
                 'temperature' : '85',

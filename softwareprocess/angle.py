@@ -5,5 +5,6 @@ def toString(angle):
 
 def parse(angle):
     match = re.match('^(\d{1,3})d(\d{1,2}\.\d)$', angle)
-
-    return int(match.group(1)) + float(match.group(2)) / 60 if match else None
+    if not match:
+        raise ValueError('invalid angle string format: ' + angle)
+    return int(match.group(1)) + float(match.group(2)) / 60

@@ -1,68 +1,48 @@
 import softwareprocess.angle as angle
 import math
 
-def dip(height):
-    return (-0.97 * math.sqrt(height)) / 60
+def dip(height, horizon):
+    error = 'height' if height < 0.0 \
+        else 'horizon' if horizon != 'natural' and horizon != 'artificial' \
+        else None
+    if error:
+        raise ValueError('values out of range: ' + error)
+    return 0.0 if horizon == 'artificial' \
+        else (-0.97 * math.sqrt(height)) / 60
 
 def refraction(pressure, temperature, observation):
+    error = 'pressure' if pressure > 1100 or pressure < 100 \
+        else 'temperature' if temperature > 120 or temperature < -20 \
+        else 'observation' if observation < angle.parse('0d0.1') \
+        or observation > angle.parse('90d0.0') else None
+    if error:
+        raise ValueError('values out of range: ' + error)
     return ((-0.00452 * pressure)
         / (273 + ((temperature - 32) * 5 / 9))
         / math.tan(math.radians(observation)))
 
+def adjustedAltitude(observation, height, pressure, temperature, horizon):
+    return observation \
+        + dip(height, horizon) \
+        + refraction(pressure, temperature, observation)
+
 def adjust(values):
-
-    if 'altitude' in values:
-        values['error'] = 'key "values" can\'t be present'
-        return values
-
-    if not 'observation' in values:
-        values['error'] = 'mandatory information is missing'
-        return values
-
-    observation = angle.parse(values['observation'])
-    if not observation or observation < angle.parse('0d0.1') \
-        or observation > angle.parse('90d0.0'):
-
-        values['error'] = 'invalid observation'
-        return values
-
     try:
-        height = 0.0 if not 'height' in values else float(values['height'])
-    except:
-        values['error'] = 'height value error'
-        return values
-    if height < 0:
-        values['error'] = 'height out of range'
-        return values
-
-    try:
-        temperature = 72 if not 'temperature' in values \
-            else int(values['temperature'])
-    except:
-        values['error'] = 'temperature value error'
-        return values
-    if temperature > 120 or temperature < -20:
-        values['error'] = 'temperature out of range'
-        return values
-
-    try:
-        pressure = 1010 if not 'pressure' in values \
-            else int(values['pressure'])
-    except:
-        values['error'] = 'pressure value error'
-        return values
-    if pressure > 1100 or pressure < 100:
-        values['error'] = 'pressure out of range'
-        return values
-
-    horizon = 'natural' if not 'horizon' in values \
-        else values['horizon'].lower()
-    if horizon != 'natural' and horizon != 'artificial':
-        values['error'] = 'invalid horizon'
-        return values
-
-    values['altitude'] = angle.toString(observation
-        + (dip(height) if horizon == 'natural' else 0)
-        + refraction(pressure, temperature, observation))
-
+        if 'altitude' in values:
+            raise ValueError('key "values" can\'t be resent')
+        values['altitude'] = angle.toString (
+            adjustedAltitude (
+                angle.parse(values['observation']),
+                float(0.0 if not 'height' in values
+                    else values['height']),
+                int(1010 if not 'pressure' in values
+                    else values['pressure']),
+                int(72 if not 'temperature' in values
+                    else values['temperature']),
+                ('natural' if not 'horizon' in values
+                    else values['horizon'].lower())
+            )
+        )
+    except Exception as e:
+        values['error'] = str(e)
     return values

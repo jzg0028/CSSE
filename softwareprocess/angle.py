@@ -10,8 +10,9 @@ def parse(angle):
     return int(match.group(1)) + float(match.group(2)) / 60
 
 def normalize(angle, low, high):
+    total = abs(low) + abs(high)
     while(angle <= low):
-        angle += 360
-    while(angle >= high):
-        angle -= 360
+        angle += total
+    while(angle > high):
+        angle -= total
     return angle

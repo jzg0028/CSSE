@@ -24,5 +24,5 @@ class AngleTest(unittest.TestCase):
     def testNormalize90(self):
         self.assertAlmostEqual(0.0, angle.normalize(0.0, -90, 90))
         self.assertAlmostEqual(90.0, angle.normalize(90.0, -90, 90))
-        self.assertAlmostEqual(-90.0, angle.normalize(-90.0, -90, 90))
+        self.assertAlmostEqual(90.0, angle.normalize(-90.0, -90, 90))
         self.assertAlmostEqual(-89.0, angle.normalize(91.0, -90, 90))

@@ -1,3 +1,5 @@
+from softwareprocess.adjust import adjust
+
 def dispatch(values=None):
 
     #Validate parm
@@ -11,7 +13,7 @@ def dispatch(values=None):
 
     #Perform designated function
     if(values['op'] == 'adjust'):
-        return values    #<-------------- replace this with your implementation
+        return adjust(values)
     elif(values['op'] == 'predict'):
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):

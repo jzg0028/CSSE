@@ -1,4 +1,4 @@
-from softwareprocess.adjust import adjust
+from adjust import adjust
 
 def dispatch(values=None):
 

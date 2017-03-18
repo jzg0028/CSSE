@@ -1,4 +1,4 @@
-import softwareprocess.angle as angle
+import angle
 import math
 
 def dip(height, horizon):

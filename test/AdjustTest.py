@@ -11,6 +11,7 @@ class AngleTest(unittest.TestCase):
 
     def test_observationLowBoundError(self):
         self.assertTrue('error' in adjust.adjust({'observation' : '0d0.0'}))
+        self.assertTrue('error' in adjust.adjust({'observation' : '-1d0.0'}))
 
     def test_observationHighBoundError(self):
         self.assertTrue('error' in adjust.adjust({'observation' : '90d0.1'}))
@@ -22,6 +23,10 @@ class AngleTest(unittest.TestCase):
         self.assertTrue('error' in adjust.adjust({'observation' : 'd0.0'}))
         self.assertTrue('error' in adjust.adjust({'observation' : '0y0.0'}))
         self.assertTrue('error' in adjust.adjust({'observation' : '00.0'}))
+
+    def test_observationMinuteUpperBound(self):
+        self.assertTrue('error' in adjust.adjust({'observation' : '0d60.1'}))
+        self.assertTrue('error' in adjust.adjust({'observation' : '0d61.0'}))
 
     def test_heightLowBoundError(self):
         self.assertTrue('error' in adjust.adjust(

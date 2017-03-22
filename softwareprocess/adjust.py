@@ -30,6 +30,8 @@ def adjust(values):
     try:
         if 'altitude' in values:
             raise ValueError('key "values" can\'t be resent')
+        if angle.parseMinutes(values['observation']) >= 1.0:
+            raise ValueError('minutes out of bounds')
         values['altitude'] = angle.toString (
             angle.normalize (
                 adjustedAltitude (

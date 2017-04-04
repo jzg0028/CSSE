@@ -1,5 +1,5 @@
 import unittest
-import softwareprocess.angle as angle
+import prod.angle as angle
 
 class AngleTest(unittest.TestCase):
 

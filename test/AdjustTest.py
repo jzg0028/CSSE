@@ -1,5 +1,5 @@
 import unittest
-import softwareprocess.adjust as adjust
+import prod.adjust as adjust
 
 class AngleTest(unittest.TestCase):
 

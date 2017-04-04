@@ -1,5 +1,5 @@
 import unittest
-import softwareprocess.Sample as SM
+import prod.Sample as SM
 import math
 
 

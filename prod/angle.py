@@ -10,10 +10,10 @@ def parseDegrees(angle):
     return int(capture(angle)[0])
 
 def parseMinutes(angle):
-    return float(capture(angle)[1]) / 60
+    return round(float(capture(angle)[1]), 2) / 60
 
 def capture(angle):
-    match = re.match('^(\d{1,3})d(\d{1,2}\.\d)$', angle)
+    match = re.match('^(\d{1,3})d(\d{1,2}\.\d+)$', angle)
     if not match:
         raise ValueError('invalid angle string format: ' + angle)
     return (match.group(1), match.group(2));

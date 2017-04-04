@@ -29,5 +29,8 @@ def countLeapYears(fromYear, toYear):
             else 0
     return out
 
-def angularDifference(fromYear, toYear):
+def cumulativeProgression(fromYear, toYear):
     return (toYear - fromYear) * angle.parse('-0d14.31667')
+
+def leapProgression(fromYear, toYear):
+    return 0.0

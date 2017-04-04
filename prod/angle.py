@@ -13,10 +13,10 @@ def parseMinutes(angle):
     return round(float(capture(angle)[1]), 2) / 60
 
 def capture(angle):
-    match = re.match('^(\d{1,3})d(\d{1,2}\.\d+)$', angle)
+    match = re.match('^([-+]?)(\d+)d(\d+\.\d+)$', angle)
     if not match:
         raise ValueError('invalid angle string format: ' + angle)
-    return (match.group(1), match.group(2));
+    return (match.group(1) + match.group(2), match.group(1) + match.group(3));
 
 def normalize(angle, low, high):
     total = abs(low) + abs(high)

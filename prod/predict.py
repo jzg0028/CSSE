@@ -30,4 +30,4 @@ def countLeapYears(fromYear, toYear):
     return out
 
 def angularDifference(fromYear, toYear):
-    return (toYear - fromYear) * angle.parse('0d14.31667') * -1
+    return (toYear - fromYear) * angle.parse('-0d14.31667')

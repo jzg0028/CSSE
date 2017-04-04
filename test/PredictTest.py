@@ -11,3 +11,23 @@ class PredictTest(unittest.TestCase):
 
     def test_invalidBodyName(self):
         self.assertTrue('error' not in predict.predict({'body' : 'Polaris'}))
+
+    def test_invalidDateFormat(self):
+        self.asserTrue (
+            'error' in predict.predict ({
+                'body' : 'Betelgeuse',
+                'date' : '20XX-04-01'
+            })
+        )
+        self.asserTrue (
+            'error' in predict.predict ({
+                'body' : 'Betelgeuse',
+                'date' : '2012/04/01'
+            })
+        )
+        self.asserTrue (
+            'error' in predict.predict ({
+                'body' : 'Betelgeuse',
+                'date' : 'foobar'
+            })
+        )

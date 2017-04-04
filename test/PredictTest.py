@@ -57,5 +57,5 @@ class PredictTest(unittest.TestCase):
         self.assertEquals(3, predict.countLeapYears(2001, 2016))
 
     def test_angularDifference(self):
-        self.assertEquals(-1 * angle.parse('3d34.8'),
+        self.assertEquals(angle.parse('-3d34.8'),
             predict.angularDifference(2001, 2016))

@@ -1,2 +1,4 @@
 def predict(values):
-    pass
+    if not 'body' in values:
+        values['error'] = 'body not present'
+    return values

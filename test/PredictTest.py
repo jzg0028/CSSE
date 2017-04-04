@@ -51,3 +51,6 @@ class PredictTest(unittest.TestCase):
                 'time' : 'foobar'
             })
         )
+
+    def test_countLeapYears(self):
+        self.assertEquals(3, predict.countLeapYears(2001, 2016))

@@ -57,9 +57,9 @@ class PredictTest(unittest.TestCase):
         self.assertEquals(3, predict.countLeapYears(2001, 2016))
 
     def test_cumulativeProgression(self):
-        self.assertEquals(angle.parse('-3d34.8'),
-            predict.cumulativeProgression(2001, 2016))
+        self.assertEquals('-3d34.8',
+            angle.toString(predict.cumulativeProgression(2001, 2016)))
 
     def test_leapProgression(self):
-        self.assertEquals(angle.parse('2d56.9'),
-            predict.leapProgression(2001, 2016))
+        self.assertEquals('2d56.9',
+            angle.toString(predict.leapProgression(2001, 2016)))

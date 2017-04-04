@@ -30,7 +30,8 @@ def countLeapYears(fromYear, toYear):
     return out
 
 def cumulativeProgression(fromYear, toYear):
-    return (toYear - fromYear) * angle.parse('-0d14.31667')
+    return (toYear - fromYear) * -0.2386667
 
 def leapProgression(fromYear, toYear):
-    return 0.0
+    return abs(360.0 - 86164.1 / 86400.0 * 360.0) \
+        * countLeapYears(fromYear, toYear)

@@ -10,7 +10,7 @@ def parseDegrees(angle):
     return int(capture(angle)[0])
 
 def parseMinutes(angle):
-    return round(float(capture(angle)[1]), 2) / 60
+    return float(capture(angle)[1]) / 60
 
 def capture(angle):
     match = re.match('^([-+]?)(\d+)d(\d+\.\d+)$', angle)

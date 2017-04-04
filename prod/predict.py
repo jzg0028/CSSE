@@ -9,9 +9,10 @@ def predict(values):
         error = 'invalid body'
 
     date = '2001-01-01' if 'date' not in values else values['date']
+    time = '00:00:00' if 'time' not in values else values['time']
 
     try:
-        datetime.strptime(date, '%Y-%m-%d')
+        datetime.strptime(date + time, '%Y-%m-%d%H:%M:%S')
     except Exception as e:
         error = str(e)
         

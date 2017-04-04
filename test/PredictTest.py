@@ -31,3 +31,23 @@ class PredictTest(unittest.TestCase):
                 'date' : 'foobar'
             })
         )
+
+    def test_invalidTimeFormat(self):
+        self.assertTrue (
+            'error' in predict.predict ({
+                'body' : 'Betelgeuse',
+                'time' : 'XX:00:00'
+            })
+        )
+        self.assertTrue (
+            'error' in predict.predict ({
+                'body' : 'Betelgeuse',
+                'time' : '12:30'
+            })
+        )
+        self.assertTrue (
+            'error' in predict.predict ({
+                'body' : 'Betelgeuse',
+                'time' : 'foobar'
+            })
+        )

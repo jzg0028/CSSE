@@ -41,3 +41,9 @@ class AngleTest(unittest.TestCase):
         self.assertAlmostEqual(0.5, angle.parseMinutes('360d30.0'))
         self.assertAlmostEqual(1.0, angle.parseMinutes('360d60.0'))
         self.assertAlmostEqual(1.5, angle.parseMinutes('360d90.0'))
+
+    def testCommutative(self):
+        i = -720.0
+        while i <= 720.0:
+            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
+            i += 0.01

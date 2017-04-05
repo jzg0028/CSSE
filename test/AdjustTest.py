@@ -1,129 +1,78 @@
 import unittest
-import prod.adjust as adjust
+from prod.adjust import AdjustedAltitude
+import sys
+from prod.angle import Angle
 
 class AngleTest(unittest.TestCase):
 
-    def test_observationMissingError(self):
-        self.assertTrue('error' in adjust.adjust({}))
+    def testObservationLowBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('0d0.0'))
+            self.fail('observation low bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_observationPresentNotError(self):
-        self.assertTrue(not 'error' in adjust.adjust({'observation' : '5d0.0'}))
+    def testObservationHighBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('90d0.1'))
+            self.fail('observation high bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_observationLowBoundError(self):
-        self.assertTrue('error' in adjust.adjust({'observation' : '0d0.0'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : '-1d0.0'}))
+    def testMinutesHighBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('0d60.1'))
+            self.fail('minute high bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_observationHighBoundError(self):
-        self.assertTrue('error' in adjust.adjust({'observation' : '90d0.1'}))
+    def testHeightLowBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('30d30.0'), height = -0.1)
+            self.fail('height low bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_observationFormatError(self):
-        self.assertTrue('error' in adjust.adjust({'observation' : '0d0'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : '0d.0'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : '0d0.'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : 'd0.0'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : '0y0.0'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : '00.0'}))
+    def testPressureLowBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('30d30.0'), pressure = 99)
+            self.fail('pressure low bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_observationMinuteUpperBound(self):
-        self.assertTrue('error' in adjust.adjust({'observation' : '0d60.1'}))
-        self.assertTrue('error' in adjust.adjust({'observation' : '0d61.0'}))
+    def testPressureHighBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('30d30.0'), pressure = 1101)
+            self.fail('pressure high bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_heightLowBoundError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'height' : '-1'}))
+    def testTemperatureLowBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('30d30.0'), temperature = -21)
+            self.fail('temperature low bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_heightValueError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'height' : 'foo'}))
+    def testTemperatureHighBound(self):
+        try:
+            AdjustedAltitude(Angle.parse('30d30.0'), temperature = 121)
+            self.fail('temperature high bound didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
-    def test_heightValueNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'height' : '12.5'}))
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'height' : '12'}))
+    def testHorizonInvalid(self):
+        for i in ('foobar', 'Foobar', 'natificial'):
+            try:
+                AdjustedAltitude(Angle.parse('30d30.0'), horizon = i)
+                self.fail('invalid horizon %s didn\'t raise exception' % i)
+            except ValueError:
+                sys.exc_clear()
 
-    def test_temperatureHighBoundError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'temperature' : '121'}))
-
-    def test_temperatureLowBoundError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'temperature' : '-21'}))
-
-    def test_temperatureValueError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'temperature' : '12.5'}))
-
-    def test_pressureHighBoundError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'pressure' : '1101'}))
-
-    def test_pressureLowBoundError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'pressure' : '99'}))
-
-    def test_pressureValueError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'pressure' : '12.5'}))
-
-    def test_horizonArtificialLowCaseNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'artificial'}))
-
-    def test_horizonArtificialUpCaseNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'ARTIFICIAL'}))
-
-    def test_horizonArtificialMixCaseNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'ArTiFiCiAl'}))
-
-    def test_horizonNaturalLowCaseNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'natural'}))
-
-    def test_horizonNaturalUpCaseNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'NATURAL'}))
-
-    def test_horizonNaturalMixCaseNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'nAtUrAl'}))
-
-    def test_horizonValueError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'horizon' : 'foobar'}))
-
-    def test_extraKeyNoError(self):
-        self.assertTrue(not 'error' in adjust.adjust(
-            {'observation' : '0d0.1', 'foo' : 'bar'}))
-        self.assertTrue('foo' in adjust.adjust(
-            {'observation' : '0d0.1', 'foo' : 'bar'}))
-
-    def test_altitudePresentError(self):
-        self.assertTrue('error' in adjust.adjust(
-            {'observation' : '0d0.1', 'altitude' : '0d0.0'}))
-
-    def test_defaultResultPresent(self):
-        self.assertTrue('altitude' in adjust.adjust(
-            {'observation' : '42d0.0'}))
-
-    def test_defaultResultValue(self):
-        self.assertEqual('41d59.0',
-            adjust.adjust({'observation' : '42d0.0'})['altitude'])
-
-    def test_nominalArtificialValue(self):
-        self.assertEqual('29d59.9', adjust.adjust (
-                {'observation' : '30d1.5',
-                'height' : '19.0',
-                'pressure' : '1000',
-                'temperature' : '85',
-                'horizon' : 'artificial' })['altitude'])
-
-    def test_nominalNaturalValue(self):
-        self.assertEqual('45d11.9', adjust.adjust (
-                {'observation' : '45d15.2',
-                'height' : '6',
-                'pressure' : '1000',
-                'temperature' : '85',
-                'horizon' : 'natural' })['altitude'])
+    def testHorizonValid(self):
+        for i in ('artificial', 'natural', 'Artificial', 'NaTuRaL'):
+            try:
+                AdjustedAltitude(Angle.parse('30d30.0'), horizon = i)
+            except ValueError as e:
+                self.fail('valid horizon %s raised exception: %s'
+                    % (i, str(e)))

@@ -48,5 +48,26 @@ class Prediction(object):
             / 86164.1 * 360.0
 
     def starGHA(self):
-        return float(Angle(self.ariesGHA() + float(self.star.getSHA()))
-            .normalize(0.0, 360.0))
+        return Angle(float(Angle(self.ariesGHA() + float(self.star.getSHA()))
+            .normalize(0.0, 360.0)))
+
+    def starDeclination(self):
+        return self.star.getDeclination()
+
+    @classmethod
+    def dispatch(Prediction, values):
+        try:
+            if 'long' in values or 'lat' in values:
+                raise ValueError('key "long" or "lat" can\'t be present')
+            prediction = Prediction (
+                values['body'],
+                ('2001-01-01' if 'date' not in values
+                    else values['date']),
+                ('00:00:00' if 'time' not in values
+                    else values['time'])
+            )
+            values['long'], values['lat'] = str(prediction.starGHA()), \
+                str(prediction.starDeclination())
+        except Exception as e:
+            values['error'] = str(e)
+        return values

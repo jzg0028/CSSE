@@ -3,13 +3,13 @@ from angle import Angle
 class Star(object):
 
     def __init__(self, body):
-        self.index = [i[0] for i in self.stars].index(body)
+        self.index = [i[0].lower() for i in self.stars].index(body.lower())
 
     def getSHA(self):
         return Angle.parse(self.stars[self.index][1])
 
     def getDeclination(self):
-        return self.stars[self.index][2]
+        return Angle.parse(self.stars[self.index][2])
 
     stars = (
         ('Alpheratz','357d41.7','29d10.9'),

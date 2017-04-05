@@ -1,41 +1,31 @@
-import angle
+from angle import Angle
 import math
 
-def dip(height, horizon):
-    error = 'height' if height < 0.0 \
-        else 'horizon' if horizon != 'natural' and horizon != 'artificial' \
-        else None
-    if error:
-        raise ValueError('values out of range: ' + error)
-    return 0.0 if horizon == 'artificial' \
-        else (-0.97 * math.sqrt(height)) / 60
+class AdjustedAltitude(object):
 
-def refraction(pressure, temperature, observation):
-    error = 'pressure' if pressure > 1100 or pressure < 100 \
-        else 'temperature' if temperature > 120 or temperature < -20 \
-        else 'observation' if observation < angle.parse('0d0.1') \
-        or observation > angle.parse('90d0.0') else None
-    if error:
-        raise ValueError('values out of range: ' + error)
-    return ((-0.00452 * pressure)
-        / (273 + ((temperature - 32) * 5 / 9))
-        / math.tan(math.radians(observation)))
+    def __init__(self, observation, height = 0.0, pressure = 1010,
+        temperature = 72, horizon = 'natural'):
+        self.setObservation(observation)
+        self.setHeight(height)
+        self.setPressure(pressure)
+        self.setTemperature(temperature)
+        self.setHorizon(horizon)
 
-def adjustedAltitude(observation, height, pressure, temperature, horizon):
-    return observation \
-        + dip(height, horizon) \
-        + refraction(pressure, temperature, observation)
+    def __float__(self):
+        return float(Angle(float(self.observation)
+            + self.dip() + self.refraction()).normalize(-90.0, 90.0))
 
-def adjust(values):
-    try:
-        if 'altitude' in values:
-            raise ValueError('key "values" can\'t be resent')
-        if angle.parseMinutes(values['observation']) >= 1.0:
-            raise ValueError('minutes out of bounds')
-        values['altitude'] = angle.toString (
-            angle.normalize (
-                adjustedAltitude (
-                    angle.parse(values['observation']),
+    def __str__(self):
+        return str(Angle(float(self)))
+
+    @classmethod
+    def dispatch(AdjustedAltitude, values):
+        try:
+            if 'altitude' in values:
+                raise ValueError('key "altitude" can\'t be present')
+            values['altitude'] = str(
+                AdjustedAltitude (
+                    Angle.parse(values['observation']),
                     float(0.0 if not 'height' in values
                         else values['height']),
                     int(1010 if not 'pressure' in values
@@ -43,10 +33,49 @@ def adjust(values):
                     int(72 if not 'temperature' in values
                         else values['temperature']),
                     ('natural' if not 'horizon' in values
-                        else values['horizon'].lower())
-                ), -90, 90
+                        else values['horizon'])
+                )
             )
-        )
-    except Exception as e:
-        values['error'] = str(e)
-    return values
+        except Exception as e:
+            values['error'] = str(e)
+        return values
+
+    def setObservation(self, observation):
+        if float(observation) > 90.0 or float(observation) < 0.001666666667 \
+            or observation.getMinutes() > 60.0 \
+            or observation.getMinutes() < 0:
+            raise ValueError('observation out of bounds: %s'
+                % str(observation))
+        self.observation = observation
+
+    def setHeight(self, height):
+        if height < 0.0:
+            raise ValueError('height is negative: %f' % height)
+        self.height = height
+
+    def setPressure(self, pressure):
+        if pressure > 1100 or pressure < 100:
+            raise ValueError('pressure out of bounds: %d' % pressure)
+        self.pressure = pressure
+
+    def setTemperature(self, temperature):
+        if temperature > 120 or temperature < -20:
+            raise ValueError('temperature out of bounds: %d' % temperature)
+
+    def setHorizon(self, horizon):
+        horizon = horizon.lower()
+        if horizon == 'natural':
+            self.horizon = False
+        elif horizon == 'artificial':
+            self.horizon = True
+        else:
+            raise ValueError('invalid horizon: %s' % horizon)
+
+    def dip(self):
+        return 0.0 if self.horizon \
+            else (-0.97 * math.sqrt(self.height)) / 60.0
+
+    def refraction(self):
+        return ((-0.00452 * self.pressure)
+            / (273 + ((self.temperature - 32) * 5 / 9))
+            / math.tan(math.radians(float(self.observation))))

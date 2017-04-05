@@ -33,3 +33,12 @@ class Angle(object):
             raise ValueError('invalid angle string format: ' + angle)
         return Angle(float(match.group(1) + match.group(2)) + \
             float(match.group(1) + match.group(3)) / 60.0)
+
+    def normalize(self, low, high):
+        angle = Angle(self.angle)
+        total = abs(low) + abs(high)
+        while(angle.angle < low):
+            angle.angle += total
+        while(angle.angle >= high):
+            angle.angle -= total
+        return angle

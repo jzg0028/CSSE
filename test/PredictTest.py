@@ -55,9 +55,9 @@ class PredictTest(unittest.TestCase):
 
     def test_starGHA(self):
         self.assertEquals('75d53.6',
-        str(Angle(Prediction('Betelgeuse',
+        str(Prediction('Betelgeuse',
         '2016-01-17', '03:15:42')
-        .starGHA())))
+        .starGHA()))
 
     def test_nominal0(self):
         self.assertEquals (

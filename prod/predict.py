@@ -37,7 +37,7 @@ class Prediction(object):
             leap += 1 if i % 4 == 0 and (i % 100 != 0 or i % 400 == 0) else 0
         return 0.9829167 * leap
 
-    def predictedGHA(self):
+    def ariesGHA(self):
         return float(Angle(float(self.refGHA) + self.cumulativeProgression() \
             + self.leapProgression() + self.rotationAngle())
             .normalize(0.0, 360.0))
@@ -46,3 +46,7 @@ class Prediction(object):
         return (self.obsDate - datetime(self.obsDate.year,
             self.obsDate.month, 1)).total_seconds() \
             / 86164.1 * 360.0
+
+    def starGHA(self):
+        return float(Angle(self.ariesGHA() + float(self.star.getSHA()))
+            .normalize(0.0, 360.0))

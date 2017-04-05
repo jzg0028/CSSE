@@ -1,10 +1,12 @@
+from angle import Angle
+
 class Star(object):
 
     def __init__(self, body):
         self.index = [i[0] for i in self.stars].index(body)
 
     def getSHA(self):
-        return self.stars[self.index][1]
+        return Angle.parse(self.stars[self.index][1])
 
     def getDeclination(self):
         return self.stars[self.index][2]

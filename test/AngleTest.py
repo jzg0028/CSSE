@@ -59,3 +59,12 @@ class AngleTest(unittest.TestCase):
             self.fail('no exception with hi 0 and lo 0')
         except ValueError:
             sys.exc_clear()
+
+    def testParse(self):
+        self.assertEquals('359d0.0', str(Angle.parse('359d0.0')))
+
+    def testDegreesCommutativePositive(self):
+        i = 0
+        while i < 360:
+            self.assertEquals(i, Angle.parse(str(Angle(i))))
+            i += 1

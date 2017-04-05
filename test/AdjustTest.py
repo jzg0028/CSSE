@@ -76,3 +76,17 @@ class AngleTest(unittest.TestCase):
             except ValueError as e:
                 self.fail('valid horizon %s raised exception: %s'
                     % (i, str(e)))
+
+    def testNominal0(self):
+        self.assertEquals (
+            '29d59.9',
+            str (
+                AdjustedAltitude (
+                    Angle.parse('30d1.5'),
+                    19.0,
+                    1000,
+                    85,
+                    'artificial'
+                )
+            )
+        )

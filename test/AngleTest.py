@@ -66,5 +66,5 @@ class AngleTest(unittest.TestCase):
     def testDegreesCommutativePositive(self):
         i = 0
         while i < 360:
-            self.assertEquals(i, Angle.parse(str(Angle(i))))
+            self.assertEquals(i, Angle.parse(str(Angle(i))).getDegrees())
             i += 1

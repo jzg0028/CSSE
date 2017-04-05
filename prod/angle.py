@@ -24,18 +24,22 @@ class Angle(object):
 
     def setDegrees(self, degrees, norm = False, lo = None, hi = None):
         lo, hi = lo or self.degLo, hi or self.degHi
-        if not norm and (degrees < lo or degrees >= hi):
+        if norm:
+            degrees = normalize(degrees, lo, hi)
+        elif degrees < lo or degrees >= hi:
             raise ValueError('degrees out of bounds: %d' % degrees)
-        self.degrees = normalize(degrees, lo, hi)
+        self.degrees = degrees
 
     def getDegrees(self):
         return self.degrees
 
     def setMinutes(self, minutes, norm = False, lo = None, hi = None):
         lo, hi = lo or self.minLo, hi or self.minHi
-        if not norm and (minutes < lo or minutes >= hi):
+        if norm:
+            minutes = normalize(minutes, lo, hi)
+        elif minutes < lo or minutes >= hi:
             raise ValueError('minutes out of bounds: %d' % minutes)
-        self.minutes = normalize(minutes, lo, hi)
+        self.minutes = minutes
 
     def getMinutes(self):
         return self.minutes

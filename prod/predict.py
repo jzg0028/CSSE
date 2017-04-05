@@ -40,3 +40,7 @@ class Prediction(object):
     def predictedGHA(self):
         return float(self.refGHA) + self.cumulativeProgression() \
             + self.leapProgression()
+
+    def secondDifference(self):
+        return (self.obsDate - datetime(self.obsDate.year,
+            self.obsDate.month, 1)).total_seconds()

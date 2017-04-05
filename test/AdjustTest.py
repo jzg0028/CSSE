@@ -90,3 +90,17 @@ class AngleTest(unittest.TestCase):
                 )
             )
         )
+
+    def testNominal1(self):
+        self.assertEquals (
+            '45d11.9',
+            str (
+                AdjustedAltitude (
+                    Angle.parse('45d15.2'),
+                    6.0,
+                    1010,
+                    71,
+                    'natural'
+                )
+            )
+        )

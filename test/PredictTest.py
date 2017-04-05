@@ -55,6 +55,6 @@ class PredictTest(unittest.TestCase):
 
     def test_secondDifference(self):
         self.assertEquals(1394142,
-        Angle(Prediction('Betelgeuse',
+        Prediction('Betelgeuse',
         '2016-01-17', '03:15:42')
-        .secondDifference()))
+        .secondDifference())

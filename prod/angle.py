@@ -47,6 +47,10 @@ class Angle(object):
     def __str__(self):
         return '%dd%.1f' % (self.getDegrees(), self.getMinutes())
 
+    def __float__(self):
+        return self.getDegrees() + self.getMinutes() \
+            / (abs(self.minLo) + abs(self.minHi))
+
     @classmethod
     def parse(Angle, angle, norm = False, degLo = 0, degHi = 360,
         minLo = 0.0, minHi = 60.0):

@@ -6,19 +6,25 @@ class Prediction(object):
 
     def __init__(self, body, date = '2001-01-01', time = '00:00:00'):
         self.setBody(body)
-        self.setObservationDateTime(date, time)
         self.setReferenceDateTime('2001-01-01', '00:00:00')
+        self.setObservationDateTime(date, time)
 
     def setBody(self, body):
        self.star = Star(body) 
 
     def setObservationDateTime(self, date, time):
-        self.obsDate = datetime.strptime(date + ' ' + time,
+        obsDate = datetime.strptime(date + ' ' + time,
             '%Y-%m-%d %H:%M:%S')
+        if hasattr(self, 'refDate') and obsDate < self.refDate:
+            raise ValueError('observation date > reference date')
+        self.obsDate = obsDate
 
     def setReferenceDateTime(self, date, time):
-        self.refDate = datetime.strptime(date + ' ' + time,
+        refDate = datetime.strptime(date + ' ' + time,
             '%Y-%m-%d %H:%M:%S')
+        if hasattr(self, 'obsDate') and self.obsDate < refDate:
+            raise ValueError('observation date > reference date')
+        self.refDate = refDate
 
     def cumulativeProgression(self):
         return (self.obsDate.year - self.refDate.year) \

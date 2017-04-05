@@ -16,11 +16,23 @@ class AngleTest(unittest.TestCase):
     def testDegreesCommutativePositive(self):
         i = 0.0
         while i < 360.0:
-            self.assertEquals(i, float(Angle.parse(str(Angle(i)))))
+            self.assertAlmostEquals(i, float(Angle.parse(str(Angle(i)))))
             i += 1.0
 
-    def testDegreesCommutativePositive(self):
+    def testDegreesCommutativeNegative(self):
         i = -360.0
         while i < 0.0:
-            self.assertEquals(i, float(Angle.parse(str(Angle(i)))))
+            self.assertAlmostEquals(i, float(Angle.parse(str(Angle(i)))))
             i += 1.0
+
+    def testMinutesCommutativePositive(self):
+        i = 0.0
+        while i < 1.0:
+            self.assertAlmostEquals(i, float(Angle.parse(str(Angle(i)))))
+            i += 0.01
+
+    def testMinutesCommutativeNegative(self):
+        i = -1.0
+        while i < 0.0:
+            self.assertAlmostEquals(i, float(Angle.parse(str(Angle(i)))))
+            i += 0.01

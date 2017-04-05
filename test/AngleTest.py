@@ -36,3 +36,6 @@ class AngleTest(unittest.TestCase):
         while i < 0.0:
             self.assertAlmostEquals(i, float(Angle.parse(str(Angle(i)))))
             i += 0.01
+
+    def testNormalize(self):
+        self.assertEquals('0d0.0', str(Angle(360.0).normalize(0.0, 360.0)))

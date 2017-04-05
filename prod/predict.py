@@ -38,8 +38,9 @@ class Prediction(object):
         return 0.9829167 * leap
 
     def predictedGHA(self):
-        return float(self.refGHA) + self.cumulativeProgression() \
-            + self.leapProgression()
+        return float(Angle(float(self.refGHA) + self.cumulativeProgression() \
+            + self.leapProgression() + self.rotationAngle())
+            .normalize(0.0, 360.0))
 
     def rotationAngle(self):
         return (self.obsDate - datetime(self.obsDate.year,

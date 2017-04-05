@@ -1,79 +1,61 @@
 import unittest
-import prod.angle as angle
+from prod.angle import Angle
+import sys
 
 class AngleTest(unittest.TestCase):
 
-    def testToString(self):
-        self.assertEqual('0d0.0', angle.toString(0))
-        self.assertEqual('0d30.0', angle.toString(0.5))
-        self.assertEqual('30d30.0', angle.toString(30.5))
-        self.assertEqual('90d0.0', angle.toString(90.0))
+    def testDefaultValues(self):
+        try:
+            Angle()
+        except ValueError as e:
+            self.fail('threw: ' + e)
 
-    def testParse(self):
-        self.assertAlmostEqual(0.0, angle.parse('0d0.0'))
-        self.assertAlmostEqual(0.5, angle.parse('0d30.0'))
-        self.assertAlmostEqual(30.5, angle.parse('30d30.0'))
-        self.assertAlmostEqual(90.0, angle.parse('90d0.0'))
+    def testDegreesEqualBoundsPositive(self):
+        for i in xrange(1, 720):
+            try:
+                Angle(degHi = i, degLo = i)
+                self.fail('no exception with hi %d and lo %d', (i, i))
+            except ValueError:
+                sys.exc_clear()
 
-    def testNegative(self):
-        self.assertAlmostEqual(-30.5, angle.parse('-30d30.0'))
-        self.assertAlmostEqual(-0.5, angle.parse('-0d30.0'))
+    def testDegreesEqualBoundsNegative(self):
+        for i in xrange(-720, 0):
+            try:
+                Angle(degHi = i, degLo = i)
+                self.fail('no exception with hi %d and lo %d', (i, i))
+            except ValueError:
+                sys.exc_clear()
 
-    def testNormalize360(self):
-        self.assertAlmostEqual(360.0, angle.normalize(360.0, 0, 360))
-        self.assertAlmostEqual(1.0, angle.normalize(361.0, 0, 360))
-        self.assertAlmostEqual(1.0, angle.normalize(721.0, 0, 360))
-        self.assertAlmostEqual(359.0, angle.normalize(-1.0, 0, 360))
+    def testDegreesEqualBoundsZero(self):
+        try:
+            Angle(degHi = 0, degLo = 0)
+            self.fail('no exception with hi 0 and lo 0')
+        except ValueError:
+            sys.exc_clear()
 
-    def testNormalize90(self):
-        self.assertAlmostEqual(0.0, angle.normalize(0.0, -90, 90))
-        self.assertAlmostEqual(90.0, angle.normalize(90.0, -90, 90))
-        self.assertAlmostEqual(90.0, angle.normalize(-90.0, -90, 90))
-        self.assertAlmostEqual(-89.0, angle.normalize(91.0, -90, 90))
+    def testMinutesEqualBoundsPositive(self):
+        i = 0.01
+        while i < 160.0:
+            try:
+                Angle(minHi = i, minLo = i)
+                self.fail('no exception with hi %d and lo %d', (i, i))
+            except ValueError:
+                sys.exc_clear()
+            i += 1
 
-    def testParseDegrees(self):
-        self.assertEqual(360, angle.parseDegrees('360d0.0'))
-        self.assertEqual(360, angle.parseDegrees('360d1.0'))
-        self.assertEqual(720, angle.parseDegrees('720d0.0'))
+    def testMinutesEqualBoundsNegative(self):
+        i = -0.01
+        while i < 0.0:
+            try:
+                Angle(minHi = i, minLo = i)
+                self.fail('no exception with hi %d and lo %d', (i, i))
+            except ValueError:
+                sys.exc_clear()
+            i += 1
 
-    def testParseMinutes(self):
-        self.assertAlmostEqual(0.0, angle.parseMinutes('360d0.0'))
-        self.assertAlmostEqual(0.5, angle.parseMinutes('360d30.0'))
-        self.assertAlmostEqual(1.0, angle.parseMinutes('360d60.0'))
-        self.assertAlmostEqual(1.5, angle.parseMinutes('360d90.0'))
-
-    def testParseDegreesNegativeFloatStringFloat(self):
-        i = -360.0
-        while i <= 0.0:
-            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
-            i += 1.0
-
-    def testParseDegreesPositiveFloatStringFloat(self):
-        i = 0.0
-        while i <= 360.0:
-            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
-            i += 1.0
-
-    def testParseMinutesNegativeFloatStringFloat(self):
-        i = -1
-        while i <= 0.0:
-            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
-            i += 0.01
-
-    def testParseMinutesNegativeFloatStringFloat(self):
-        i = 0.0
-        while i <= 1.0:
-            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
-            i += 0.01
-
-    def testParseNegativeFloatStringFloat(self):
-        i = -360.0
-        while i <= 0.0:
-            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
-            i += 0.01
-
-    def testParsePositiveFloatStringFloat(self):
-        i = -0.0
-        while i <= 360.0:
-            self.assertAlmostEqual(i, angle.parse(angle.toString(i)))
-            i += 0.01
+    def testMinutesEqualBoundsZero(self):
+        try:
+            Angle(minHi = 0, minLo = 0)
+            self.fail('no exception with hi 0 and lo 0')
+        except ValueError:
+            sys.exc_clear()

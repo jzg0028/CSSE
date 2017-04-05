@@ -53,8 +53,8 @@ class PredictTest(unittest.TestCase):
             '2016-01-17', '03:15:42')
             .predictedGHA())))
 
-    def test_secondDifference(self):
-        self.assertEquals(1394142,
-        Prediction('Betelgeuse',
+    def test_rotationAngle(self):
+        self.assertEquals('64d49.7',
+        str(Angle(Prediction('Betelgeuse',
         '2016-01-17', '03:15:42')
-        .secondDifference())
+        .rotationAngle()).normalize(0.0, 360.0)))

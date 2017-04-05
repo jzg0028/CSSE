@@ -47,14 +47,14 @@ class PredictTest(unittest.TestCase):
             '2016-01-17', '03:15:42')
             .leapProgression())))
 
-    def test_predictedGHA(self):
+    def test_ariesGHA(self):
         self.assertEquals('164d54.5',
-            str(Angle(Prediction('Betelgeuse',
-            '2016-01-17', '03:15:42')
-            .predictedGHA())))
-
-    def test_rotationAngle(self):
-        self.assertEquals('64d49.7',
         str(Angle(Prediction('Betelgeuse',
         '2016-01-17', '03:15:42')
-        .rotationAngle()).normalize(0.0, 360.0)))
+        .ariesGHA())))
+
+    def test_starGHA(self):
+        self.assertEquals('75d53.6',
+        str(Angle(Prediction('Betelgeuse',
+        '2016-01-17', '03:15:42')
+        .starGHA())))

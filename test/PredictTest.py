@@ -1,65 +1,54 @@
 import unittest
-import prod.predict as predict
-import prod.angle as angle
+from prod.predict import Prediction
+from prod.angle import Angle
+import sys
 
 class PredictTest(unittest.TestCase):
 
-    def test_bodyMissing(self):
-        self.assertTrue('error' in predict.predict({}))
+    def test_invalidBodyName(self):
+        try:
+            Prediction('foobar')
+            self.fail('invalid body, but didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
 
     def test_invalidBodyName(self):
-        self.assertTrue('error' in predict.predict({'body' : 'foobar'}))
-
-    def test_invalidBodyName(self):
-        self.assertTrue('error' not in predict.predict({'body' : 'Polaris'}))
+        try:
+            Prediction('Polaris')
+        except ValueError:
+            self.fail('valid body, but raised exception')
+            sys.exc_clear()
 
     def test_invalidDateFormat(self):
-        self.assertTrue (
-            'error' in predict.predict ({
-                'body' : 'Betelgeuse',
-                'date' : '20XX-04-01'
-            })
-        )
-        self.assertTrue (
-            'error' in predict.predict ({
-                'body' : 'Betelgeuse',
-                'date' : '2012/04/01'
-            })
-        )
-        self.assertTrue (
-            'error' in predict.predict ({
-                'body' : 'Betelgeuse',
-                'date' : 'foobar'
-            })
-        )
+        for i in ('20XX-30-30', 'foobar', '2013/03/04', '2000-01-01'):
+            try:
+                Prediction('Polaris', date = i)
+                self.fail('invalid date %s, but didn\'t raise exception' % i)
+            except ValueError:
+                sys.exc_clear()
 
     def test_invalidTimeFormat(self):
-        self.assertTrue (
-            'error' in predict.predict ({
-                'body' : 'Betelgeuse',
-                'time' : 'XX:00:00'
-            })
-        )
-        self.assertTrue (
-            'error' in predict.predict ({
-                'body' : 'Betelgeuse',
-                'time' : '12:30'
-            })
-        )
-        self.assertTrue (
-            'error' in predict.predict ({
-                'body' : 'Betelgeuse',
-                'time' : 'foobar'
-            })
-        )
+        for i in ('XX:00:12', '25:00:00', 'foobar', '12:30'):
+            try:
+                Prediction('Polaris', time = i)
+                self.fail('invalid time %s, but didn\'t raise exception' % i)
+            except ValueError:
+                sys.exc_clear()
 
     def test_countLeapYears(self):
-        self.assertEquals(3, predict.countLeapYears(2001, 2016))
+        self.assertEquals(3,
+            Prediction('Betelgeuse',
+            '2016-01-17', '03:15:42')
+            .countLeapYears())
 
     def test_cumulativeProgression(self):
         self.assertEquals('-3d34.8',
-            angle.toString(predict.cumulativeProgression(2001, 2016)))
+            str(Angle(Prediction('Betelgeuse',
+            '2016-01-17', '03:15:42')
+            .cumulativeProgression())))
 
     def test_leapProgression(self):
         self.assertEquals('2d56.9',
-            angle.toString(predict.leapProgression(2001, 2016)))
+            str(Angle(Prediction('Betelgeuse',
+            '2016-01-17', '03:15:42')
+            .leapProgression())))

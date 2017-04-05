@@ -25,7 +25,7 @@ class Angle(object):
     def setDegrees(self, degrees, norm = False, lo = None, hi = None):
         lo, hi = lo or self.degLo, hi or self.degHi
         if not norm and (degrees < lo or degrees >= hi):
-            raise ValueError('degrees out of bounds')
+            raise ValueError('degrees out of bounds: %d' % degrees)
         self.degrees = normalize(degrees, lo, hi)
 
     def getDegrees(self):
@@ -34,8 +34,8 @@ class Angle(object):
     def setMinutes(self, minutes, norm = False, lo = None, hi = None):
         lo, hi = lo or self.minLo, hi or self.minHi
         if not norm and (minutes < lo or minutes >= hi):
-            raise ValueError('minutes out of bounds')
-        self.degrees = normalize(minutes, lo, hi)
+            raise ValueError('minutes out of bounds: %d' % minutes)
+        self.minutes = normalize(minutes, lo, hi)
 
     def getMinutes(self):
         return self.minutes
@@ -44,7 +44,7 @@ class Angle(object):
         return '%dd%.1f' % (self.getDegrees(), self.getMinutes())
 
     @classmethod
-    def parse(angle, norm = False, degLo = 0, degHi = 360,
+    def parse(Angle, angle, norm = False, degLo = 0, degHi = 360,
         minLo = 0.0, minHi = 60.0):
         match = re.match(r'^([-+]?)(\d+)d(\d+\.\d+)$', angle)
         if not match:

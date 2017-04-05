@@ -8,6 +8,7 @@ class Prediction(object):
         self.setBody(body)
         self.setReferenceDateTime('2001-01-01', '00:00:00')
         self.setObservationDateTime(date, time)
+        self.refGHA = Angle.parse('100d42.6')
 
     def setBody(self, body):
        self.star = Star(body) 
@@ -30,11 +31,12 @@ class Prediction(object):
         return (self.obsDate.year - self.refDate.year) \
             * float(Angle.parse('-0d14.31667'))
 
-    def countLeapYears(self):
-        out = 0
-        for i in xrange(self.refDate.year, self.obsDate.year):
-            out += 1 if i % 4 == 0 and (i % 100 != 0 or i % 400 == 0) else 0
-        return out
-
     def leapProgression(self):
-        return 0.9829167 * self.countLeapYears()
+        leap = 0
+        for i in xrange(self.refDate.year, self.obsDate.year):
+            leap += 1 if i % 4 == 0 and (i % 100 != 0 or i % 400 == 0) else 0
+        return 0.9829167 * leap
+
+    def predictedGHA(self):
+        return float(self.refGHA) + self.cumulativeProgression() \
+            + self.leapProgression()

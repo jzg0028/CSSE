@@ -61,6 +61,7 @@ class AdjustedAltitude(object):
     def setTemperature(self, temperature):
         if temperature > 120 or temperature < -20:
             raise ValueError('temperature out of bounds: %d' % temperature)
+        self.temperature = temperature
 
     def setHorizon(self, horizon):
         horizon = horizon.lower()

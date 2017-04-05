@@ -1,13 +1,5 @@
 import re
 
-def normalize(val, low, high):
-    total = abs(low) + abs(high)
-    while(val <= low):
-        val += total
-    while(val > high):
-        val -= total
-    return val
-
 class Angle(object):
 
     def __init__(self, angle = 0.0):

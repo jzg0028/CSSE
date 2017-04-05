@@ -41,6 +41,7 @@ class Prediction(object):
         return float(self.refGHA) + self.cumulativeProgression() \
             + self.leapProgression()
 
-    def secondDifference(self):
+    def rotationAngle(self):
         return (self.obsDate - datetime(self.obsDate.year,
-            self.obsDate.month, 1)).total_seconds()
+            self.obsDate.month, 1)).total_seconds() \
+            / 86164.1 * 360.0

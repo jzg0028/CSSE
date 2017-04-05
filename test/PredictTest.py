@@ -35,12 +35,6 @@ class PredictTest(unittest.TestCase):
             except ValueError:
                 sys.exc_clear()
 
-    def test_countLeapYears(self):
-        self.assertEquals(3,
-            Prediction('Betelgeuse',
-            '2016-01-17', '03:15:42')
-            .countLeapYears())
-
     def test_cumulativeProgression(self):
         self.assertEquals('-3d34.8',
             str(Angle(Prediction('Betelgeuse',
@@ -52,3 +46,9 @@ class PredictTest(unittest.TestCase):
             str(Angle(Prediction('Betelgeuse',
             '2016-01-17', '03:15:42')
             .leapProgression())))
+
+    def test_predictedGHA(self):
+        self.assertEquals('100d4.8',
+            str(Angle(Prediction('Betelgeuse',
+            '2016-01-17', '03:15:42')
+            .predictedGHA())))

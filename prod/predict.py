@@ -1,37 +1,34 @@
-from stars import stars
+from stars import Star
 from datetime import datetime
-import angle
+from angle import Angle
 
-def predict(values):
-    error = None
-    if 'body' not in values:
-        error = 'body not present'
-    elif values['body'] not in (i[0] for i in stars):
-        error = 'invalid body'
+class Prediction(object):
 
-    date = '2001-01-01' if 'date' not in values else values['date']
-    time = '00:00:00' if 'time' not in values else values['time']
+    def __init__(self, body, date = '2001-01-01', time = '00:00:00'):
+        self.setBody(body)
+        self.setObservationDateTime(date, time)
+        self.setReferenceDateTime('2001-01-01', '00:00:00')
 
-    try:
-        datetime.strptime(date + time, '%Y-%m-%d%H:%M:%S')
-    except Exception as e:
-        error = str(e)
-        
+    def setBody(self, body):
+       self.star = Star(body) 
 
-    if error:
-        values['error'] = error
-    return values
+    def setObservationDateTime(self, date, time):
+        self.obsDate = datetime.strptime(date + ' ' + time,
+            '%Y-%m-%d %H:%M:%S')
 
-def countLeapYears(fromYear, toYear):
-    out = 0
-    for year in xrange(fromYear, toYear):
-        out += 1 if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0) \
-            else 0
-    return out
+    def setReferenceDateTime(self, date, time):
+        self.refDate = datetime.strptime(date + ' ' + time,
+            '%Y-%m-%d %H:%M:%S')
 
-def cumulativeProgression(fromYear, toYear):
-    return (toYear - fromYear) * -0.2386667
+    def cumulativeProgression(self):
+        return (self.obsDate.year - self.refDate.year) \
+            * float(Angle.parse('-0d14.31667'))
 
-def leapProgression(fromYear, toYear):
-    return abs(360.0 - 86164.1 / 86400.0 * 360.0) \
-        * countLeapYears(fromYear, toYear)
+    def countLeapYears(self):
+        out = 0
+        for i in xrange(self.refDate.year, self.obsDate.year):
+            out += 1 if i % 4 == 0 and (i % 100 != 0 or i % 400 == 0) else 0
+        return out
+
+    def leapProgression(self):
+        return 0.9829167 * self.countLeapYears()

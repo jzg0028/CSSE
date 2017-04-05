@@ -8,7 +8,6 @@ class Star(object):
 
     def getDeclination(self):
         return self.stars[self.index][2]
-            
 
     stars = (
         ('Alpheratz','357d41.7','29d10.9'),

@@ -58,3 +58,13 @@ class PredictTest(unittest.TestCase):
         str(Angle(Prediction('Betelgeuse',
         '2016-01-17', '03:15:42')
         .starGHA())))
+
+    def test_nominal0(self):
+        self.assertEquals (
+            '75d53.6',
+            Prediction.dispatch ({
+                'body' : 'betelgeuse',
+                'date' : '2016-01-17',
+                'time' : '03:15:42'
+            })['long']
+        )

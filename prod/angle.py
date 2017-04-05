@@ -10,53 +10,26 @@ def normalize(val, low, high):
 
 class Angle(object):
 
-    def __init__(self, degrees = 0, minutes = 0.0, norm = False,
-        degLo = 0, degHi = 360, minLo = 0.0,  minHi = 60.0):
-        self.setBounds(degLo, degHi, minLo, minHi)
-        self.setDegrees(degrees, norm, degLo, degHi)
-        self.setMinutes(minutes, norm, minLo, minHi)
-
-    def setBounds(self, degLo = 0, degHi = 360, minLo = 0.0, minHi = 60.0):
-        if degLo >= degHi or minLo >= minHi:
-            raise ValueError('low bound > high bound')
-        self.degLo, self.degHi = degLo, degHi
-        self.minLo, self.minHi = minLo, minHi
-
-    def setDegrees(self, degrees, norm = False, lo = None, hi = None):
-        lo, hi = lo or self.degLo, hi or self.degHi
-        if norm:
-            degrees = normalize(degrees, lo, hi)
-        elif degrees < lo or degrees >= hi:
-            raise ValueError('degrees out of bounds: %d' % degrees)
-        self.degrees = degrees
+    def __init__(self, angle = 0.0):
+        self.angle = angle
 
     def getDegrees(self):
-        return self.degrees
-
-    def setMinutes(self, minutes, norm = False, lo = None, hi = None):
-        lo, hi = lo or self.minLo, hi or self.minHi
-        if norm:
-            minutes = normalize(minutes, lo, hi)
-        elif minutes < lo or minutes >= hi:
-            raise ValueError('minutes out of bounds: %d' % minutes)
-        self.minutes = minutes
+        return int(self.angle)
 
     def getMinutes(self):
-        return self.minutes
+        return (self.angle - int(self.angle)) * 60.0
 
     def __str__(self):
-        return '%dd%.1f' % (self.getDegrees(), self.getMinutes())
+        return '%s%dd%.1f' % ('-' if self.angle < 0 else '',
+            abs(self.getDegrees()), abs(self.getMinutes()))
 
     def __float__(self):
-        return self.getDegrees() + self.getMinutes() \
-            / (abs(self.minLo) + abs(self.minHi))
+        return self.angle
 
     @classmethod
-    def parse(Angle, angle, norm = False, degLo = 0, degHi = 360,
-        minLo = 0.0, minHi = 60.0):
+    def parse(Angle, angle):
         match = re.match(r'^([-+]?)(\d+)d(\d+\.\d+)$', angle)
         if not match:
             raise ValueError('invalid angle string format: ' + angle)
-        return Angle(int(match.group(1) + match.group(2)),
-            float(match.group(1) + match.group(3)), norm,
-            degLo, degHi, minLo, minHi)
+        return Angle(float(match.group(1) + match.group(2)) + \
+            float(match.group(1) + match.group(3)) / 60.0)

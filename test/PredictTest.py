@@ -48,7 +48,7 @@ class PredictTest(unittest.TestCase):
             .leapProgression())))
 
     def test_predictedGHA(self):
-        self.assertEquals('100d4.8',
+        self.assertEquals('164d54.5',
             str(Angle(Prediction('Betelgeuse',
             '2016-01-17', '03:15:42')
             .predictedGHA())))

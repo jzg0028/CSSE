@@ -39,3 +39,6 @@ class AngleTest(unittest.TestCase):
 
     def testNormalize(self):
         self.assertEquals('0d0.0', str(Angle(360.0).normalize(0.0, 360.0)))
+
+    def testGetMinutes(self):
+        self.assertEquals('0d60.1', str(Angle.parse('0d60.1')))

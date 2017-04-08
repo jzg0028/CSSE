@@ -12,7 +12,7 @@ class PredictTest(unittest.TestCase):
         except ValueError:
             sys.exc_clear()
 
-    def test_invalidBodyName(self):
+    def test_validBodyName(self):
         try:
             Prediction('Polaris')
         except ValueError:

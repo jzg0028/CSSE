@@ -1,4 +1,5 @@
-from adjust import adjust
+from adjust import AdjustedAltitude
+from predict import Prediction
 
 def dispatch(values=None):
 
@@ -13,9 +14,9 @@ def dispatch(values=None):
 
     #Perform designated function
     if(values['op'] == 'adjust'):
-        return adjust(values)
+        return AdjustedAltitude.dispatch(values)
     elif(values['op'] == 'predict'):
-        return values    #This calculation is stubbed out
+        return Prediction.dispatch(values)
     elif(values['op'] == 'correct'):
         return values    #This calculation is stubbed out
     elif(values['op'] == 'locate'):

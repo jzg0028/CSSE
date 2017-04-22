@@ -73,3 +73,7 @@ class Correction(object):
             * math.cos(math.radians(self.getAssumedLatitude())) \
             * math.cos(math.radians(float(self.getLongitude()) \
             + float(self.getAssumedLongitude()))))
+
+    def correctedDistance(self):
+        return Angle(float(self.getAltitude())
+            - math.degrees(math.asin(self.intermediateDistance())))

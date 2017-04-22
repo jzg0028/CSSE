@@ -16,7 +16,7 @@ class CorrestionTest(unittest.TestCase):
 
     def testLatitudeWithinLowBound(self):
         try:
-            Correction(Angle.parse('-90d0.1'), Angle.parse('0d0.0'),
+            Correction(Angle.parse('-89d59.9'), Angle.parse('0d0.0'),
                 Angle.parse('1d0.0'), Angle.parse('0d0.0'),
                 Angle.parse('0d0.0'))
         except ValueError:

@@ -1,4 +1,5 @@
 from angle import Angle
+import math
 
 class Correction(object):
 
@@ -62,5 +63,13 @@ class Correction(object):
                 str(assLon))
         self.assLon = assLon
 
-    def getAssumedLatitude(self):
+    def getAssumedLongitude(self):
         return self.assLon
+
+    def intermediateDistance(self):
+        return (math.sin(math.radians(self.getLatitude())) \
+            * math.sin(math.radians(self.getAssumedLatitude()))) \
+            + (math.cos(math.radians(self.getLatitude())) \
+            * math.cos(math.radians(self.getAssumedLatitude())) \
+            * math.cos(math.radians(float(self.getLongitude()) \
+            + float(self.getAssumedLongitude()))))

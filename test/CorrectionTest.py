@@ -38,3 +38,37 @@ class CorrestionTest(unittest.TestCase):
                 Angle.parse('0d0.0'))
         except ValueError:
             self.fail('latitude within bounds raised exception')
+
+    def testLongitudeOutOfLowBound(self):
+        try:
+            Correction(Angle.parse('0d0.0'), Angle.parse('-0d0.1'),
+                Angle.parse('1d0.0'), Angle.parse('0d0.0'),
+                Angle.parse('0d0.0'))
+            self.fail('longitude out of bounds didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
+
+    def testLongitudeWithinLowBound(self):
+        try:
+            Correction(Angle.parse('0d0.0'), Angle.parse('0d0.0'),
+                Angle.parse('1d0.0'), Angle.parse('0d0.0'),
+                Angle.parse('0d0.0'))
+        except ValueError:
+            self.fail('longitude within bounds raised exception')
+
+    def testLongitudeOutOfHighBound(self):
+        try:
+            Correction(Angle.parse('0d0.0'), Angle.parse('360d0.0'),
+                Angle.parse('1d0.0'), Angle.parse('0d0.0'),
+                Angle.parse('0d0.0'))
+            self.fail('longitude out of bounds didn\'t raise exception')
+        except ValueError:
+            sys.exc_clear()
+
+    def testLongitudeWithinHighBound(self):
+        try:
+            Correction(Angle.parse('0d0.0'), Angle.parse('359d59.9'),
+                Angle.parse('1d0.0'), Angle.parse('0d0.0'),
+                Angle.parse('0d0.0'))
+        except ValueError:
+            self.fail('longitude within bounds raised exception')

@@ -72,3 +72,13 @@ class CorrestionTest(unittest.TestCase):
                 Angle.parse('0d0.0'))
         except ValueError:
             self.fail('longitude within bounds raised exception')
+
+    def testIntermediateDistance(self):
+        self.assertAlmostEquals (
+            -0.789,
+            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
+                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
+                Angle.parse('74d35.3')) \
+                .intermediateDistance(),
+            3
+        )

@@ -12,8 +12,8 @@ class Correction(object):
     def setLatitude(self, lat):
         if float(lat) <= -90.0 \
             or float(lat) >= 90.0 \
-            or lat.getMinutes() < 0 \
-            or lat.getMinutes() >= 60:
+            or abs(lat.getMinutes()) < 0.0 \
+            or abs(lat.getMinutes()) >= 60.0:
             raise ValueError('latitude out of range: %s' % str(lat))
         self.lat = lat
 
@@ -23,8 +23,8 @@ class Correction(object):
     def setLongitude(self, lon):
         if float(lon) < 0.0 \
             or float(lon) >= 360.0 \
-            or lon.getMinutes() < 0 \
-            or lon.getMinutes() >= 60:
+            or abs(lon.getMinutes()) < 0.0 \
+            or abs(lon.getMinutes()) >= 60.0:
             raise ValueError('longitude out of range: %s' % str(lon))
         self.lon = lon
 
@@ -34,8 +34,8 @@ class Correction(object):
     def setAltitude(self, alt):
         if float(alt) <= 0.0 \
             or float(alt) >= 90.0 \
-            or alt.getMinutes() < 0 \
-            or alt.getMinutes() >= 60:
+            or abs(alt.getMinutes()) < 0.0 \
+            or abs(alt.getMinutes()) >= 60.0:
             raise ValueError('altitude out of range: %s' % str(alt))
         self.alt = alt
 
@@ -45,8 +45,8 @@ class Correction(object):
     def setAssumedLatitude(self, assLat):
         if float(assLat) <= -90.0 \
             or float(assLat) >= 90.0 \
-            or assLat.getMinutes() < 0 \
-            or assLat.getMinutes() >= 60:
+            or abs(assLat.getMinutes()) < 0.0 \
+            or abs(assLat.getMinutes()) >= 60.0:
             raise ValueError('assumed latitude out of range: %s' % str(assLat))
         self.assLat = assLat
 
@@ -56,8 +56,8 @@ class Correction(object):
     def setAssumedLongitude(self, assLon):
         if float(assLon) < 0.0 \
             or float(assLon) >= 360.0 \
-            or assLon.getMinutes() < 0 \
-            or assLon.getMinutes() >= 60:
+            or abs(assLon.getMinutes()) < 0.0 \
+            or abs(assLon.getMinutes()) >= 60.0:
             raise ValueError('assumed longitude out of range: %s' %
                 str(assLon))
         self.assLon = assLon

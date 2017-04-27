@@ -98,12 +98,3 @@ class CorrestionTest(unittest.TestCase):
                 Angle.parse('37d17.4'), Angle.parse('35d59.7'),
                 Angle.parse('74d35.3')).correctedAzimuth())
         )
-
-    def testB(self):
-        self.assertAlmostEquals (
-            0.342,
-            Correction(Angle.parse('89d20.1'), Angle.parse('154d5.4'),
-                Angle.parse('37d17.4'), Angle.parse('35d59.7'),
-                Angle.parse('74d35.3')).b(),
-            3
-        )

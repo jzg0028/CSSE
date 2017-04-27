@@ -81,11 +81,9 @@ class Correction(object):
     def correctedAzimuth(self):
         return Angle(math.degrees(math.acos(self.e())))
 
-    def c(self):
-        return math.cos(math.radians(self.getAssumedLatitude()))
-
-    def d(self):
-        return math.cos(math.asin(self.intermediateDistance()))
-
     def e(self):
-        return (math.sin(math.radians(self.getLatitude())) - math.sin(math.radians(self.getAssumedLatitude())) * self.intermediateDistance()) / (self.c() * self.d())
+        return ((math.sin(math.radians(self.getLatitude()))
+            - math.sin(math.radians(self.getAssumedLatitude()))
+            * self.intermediateDistance())
+            / (math.cos(math.radians(self.getAssumedLatitude()))
+            * math.cos(math.asin(self.intermediateDistance()))))

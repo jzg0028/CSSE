@@ -91,11 +91,15 @@ class Correction(object):
         try:
             if 'correctedDistance' in values or 'correctedAzimuth' in values:
                 raise ValueError('invalid keys present')
-            correction = Correction(values['lat'],
-                values['long'],values['altitude'], values['assumedLat'],
-                values['assumedLong'])
+            correction = Correction (
+                Angle.parse(values['lat']),
+                Angle.parse(values['long']),
+                Angle.parse(values['altitude']),
+                Angle.parse(values['assumedLat']),
+                Angle.parse(values['assumedLong'])
+            )
             values['correctedDistance'] = correction.correctedDistance()
-            values['correctedAzimuth'] = correction.correctedAzimuth()
+            values['correctedAzimuth'] = str(correction.correctedAzimuth())
         except Exception as e:
             values['error'] = str(e)
         return values

@@ -102,35 +102,35 @@ class CorrestionTest(unittest.TestCase):
     def testA(self):
         self.assertAlmostEquals (
             0.285,
-            str(Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
+            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
                 Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).a()),
+                Angle.parse('74d35.3')).a(),
             3
         )
 
     def testB(self):
         self.assertAlmostEquals (
             0.789,
-            str(Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
+            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
                 Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).b()),
+                Angle.parse('74d35.3')).b(),
             3
         )
 
     def testC(self):
         self.assertAlmostEquals (
             0.593,
-            str(Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
+            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
                 Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).c()),
+                Angle.parse('74d35.3')).c(),
             3
         )
 
     def testD(self):
         self.assertAlmostEquals (
             0.614,
-            str(Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
+            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
                 Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).d()),
+                Angle.parse('74d35.3')).d(),
             3
         )

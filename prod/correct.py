@@ -98,3 +98,6 @@ class Correction(object):
 
     def d(self):
         return math.cos(math.asin(self.intermediateDistance()))
+
+    def e(self):
+        return (self.a() - self.b()) / (self.c() * self.d())

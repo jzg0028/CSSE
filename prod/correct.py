@@ -85,3 +85,17 @@ class Correction(object):
             * self.intermediateDistance())
             / (math.cos(math.radians(self.getAssumedLatitude()))
             * math.cos(math.asin(self.intermediateDistance()))))))
+
+    @classmethod
+    def dispatch(Correction, values):
+        try:
+            if 'correctedDistance' in values or 'correctedAzimuth' in values:
+                raise ValueError('invalid keys present')
+            correction = Correction(values['lat'],
+                values['long'],values['altitude'], values['assumedLat'],
+                values['assumedLong'])
+            values['correctedDistance'] = correction.correctedDistance()
+            values['correctedAzimuth'] = correction.correctedAzimuth()
+        except Exception as e:
+            values['error'] = str(e)
+        return values

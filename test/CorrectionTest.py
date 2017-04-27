@@ -85,7 +85,7 @@ class CorrestionTest(unittest.TestCase):
 
     def testCorrectedDistance(self):
         self.assertEquals (
-            -3950,
+            3950,
             Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
                 Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
                 Angle.parse('74d35.3')).correctedDistance()

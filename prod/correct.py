@@ -75,8 +75,8 @@ class Correction(object):
             + float(self.getAssumedLongitude()))))
 
     def correctedDistance(self):
-        return int((math.degrees(math.asin(self.intermediateDistance()))
-            - float(self.getAltitude())) * 60)
+        return int((float(self.getAltitude())
+            - math.degrees(math.asin(self.intermediateDistance()))) * 60)
 
     def correctedAzimuth(self):
         return Angle(math.degrees(math.acos(

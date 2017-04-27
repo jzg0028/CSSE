@@ -82,7 +82,7 @@ class Correction(object):
         return Angle(math.degrees(math.acos(self.e())))
 
     def a(self):
-        return math.sin(math.radians(self.getLatitude()))
+        return 
 
     def b(self):
         return math.sin(math.radians(self.getAssumedLatitude())) \
@@ -95,4 +95,4 @@ class Correction(object):
         return math.cos(math.asin(self.intermediateDistance()))
 
     def e(self):
-        return (self.a() - self.b()) / (self.c() * self.d())
+        return (math.sin(math.radians(self.getLatitude())) - self.b()) / (self.c() * self.d())

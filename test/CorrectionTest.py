@@ -98,3 +98,15 @@ class CorrestionTest(unittest.TestCase):
                 Angle.parse('37d17.4'), Angle.parse('35d59.7'),
                 Angle.parse('74d35.3')).correctedAzimuth())
         )
+
+    def testDispatchNominal(self):
+        self.assertEquals (
+            '0d36.8',
+            Correction.dispatch({
+                'lat' : '89d20.1',
+                'long' : '154d5.4',
+                'altitude' : '37d17.4',
+                'assumedLat' : '35d59.7',
+                'assumedLong' : '74d35.3'
+            })['correctedAzimuth']
+        )

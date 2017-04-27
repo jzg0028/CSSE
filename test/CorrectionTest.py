@@ -93,53 +93,17 @@ class CorrestionTest(unittest.TestCase):
 
     def testCorrectedAzimuth(self):
         self.assertEquals (
-            '164d43.1',
-            str(Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
-                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
+            '0d36.8',
+            str(Correction(Angle.parse('89d20.1'), Angle.parse('154d5.4'),
+                Angle.parse('37d17.4'), Angle.parse('35d59.7'),
                 Angle.parse('74d35.3')).correctedAzimuth())
-        )
-
-    def testA(self):
-        self.assertAlmostEquals (
-            0.285,
-            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
-                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).a(),
-            3
         )
 
     def testB(self):
         self.assertAlmostEquals (
-            0.789,
-            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
-                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
+            0.342,
+            Correction(Angle.parse('89d20.1'), Angle.parse('154d5.4'),
+                Angle.parse('37d17.4'), Angle.parse('35d59.7'),
                 Angle.parse('74d35.3')).b(),
-            3
-        )
-
-    def testC(self):
-        self.assertAlmostEquals (
-            0.593,
-            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
-                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).c(),
-            3
-        )
-
-    def testD(self):
-        self.assertAlmostEquals (
-            0.614,
-            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
-                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).d(),
-            3
-        )
-
-    def testE(self):
-        self.assertAlmostEquals (
-            -0.965,
-            Correction(Angle.parse('16d32.3'), Angle.parse('95d41.6'),
-                Angle.parse('13d42.3'), Angle.parse('-53d38.4'),
-                Angle.parse('74d35.3')).e(),
             3
         )
